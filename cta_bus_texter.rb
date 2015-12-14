@@ -16,7 +16,7 @@ auth_token = ENV['AUTH_TOKEN']
 
 $allowed_phone_numbers = ENV['ALLOWED_PHONE_NUMBERS'].split(',')
 
-$existing_methods = ["map","define"]
+$existing_methods = ["map"]
 
 get '/' do
 
@@ -86,8 +86,8 @@ def map(body)
 
 end
 
-def define(body)
-  def_url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/#{body}?key=#{ENV["DICTIONARY_KEY"]}"
-  send_reply(def_url)
-end
+# def define(body)
+#   def_url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/#{body}?key=#{ENV["DICTIONARY_KEY"]}"
+#   send_reply(def_url)
+# end
 
