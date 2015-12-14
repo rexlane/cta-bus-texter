@@ -6,11 +6,11 @@ require 'geocoder'
 
 Dotenv.load
 
-# account_sid = ENV['ACCOUNT_SID']
-# auth_token = ENV['AUTH_TOKEN']
+account_sid = ENV['ACCOUNT_SID']
+auth_token = ENV['AUTH_TOKEN']
 
-account_sid = ENV['TEST_ACCOUNT_SID']
-auth_token = ENV['TEST_AUTH_TOKEN']
+# account_sid = ENV['TEST_ACCOUNT_SID']
+# auth_token = ENV['TEST_AUTH_TOKEN']
 
 @client = Twilio::REST::Client.new account_sid, auth_token
 
