@@ -1,1 +1,1 @@
-web: bundle exec ruby cta_bus_texter.rb -p $PORT
+web: bundle exec ruby texter_app.rb -p $PORT

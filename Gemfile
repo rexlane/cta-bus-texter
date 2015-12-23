@@ -6,6 +6,7 @@ gem 'sinatra'
 gem 'twilio-ruby'
 gem 'geocoder'
 gem 'dotenv'
+gem 'nokogiri'
 
 group :development, :test do
   gem 'rspec'

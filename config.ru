@@ -1,2 +1,2 @@
-require './cta_bus_texter'
+require './texter_app'
 run Sinatra::Application
