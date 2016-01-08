@@ -4,7 +4,6 @@ class Parser
   
   def parse_incoming_string(string)
     request = string.split(" ", 2)
-
     requested_method = request[0].downcase
     
     if request[1]

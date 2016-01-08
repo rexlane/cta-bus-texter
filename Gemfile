@@ -7,6 +7,9 @@ gem 'twilio-ruby'
 gem 'geocoder'
 gem 'dotenv'
 gem 'nokogiri'
+gem "pg"
+gem "activerecord"
+gem "sinatra-activerecord"
 
 group :development, :test do
   gem 'rspec'
@@ -15,6 +18,3 @@ end
 group :test do
   gem 'rack-test'
 end
-
-
-# add rspec

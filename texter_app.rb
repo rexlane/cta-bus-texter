@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'twilio-ruby'
 require 'sinatra'
+require 'sinatra/activerecord'
+require './config/environments'
+require './models/bus_stop'
 require 'dotenv'
 require 'geocoder'
 require 'nokogiri'
@@ -8,7 +11,6 @@ require 'open-uri'
 require_relative 'texter'
 require_relative 'twilier'
 require_relative 'parser'
-
 
 Dotenv.load
 
@@ -24,17 +26,15 @@ $allowed_phone_numbers = ENV['ALLOWED_PHONE_NUMBERS'].split(',')
 
 
 get '/' do
-
   if $allowed_phone_numbers.include? params[:From]
-
     method_name, method_arguments = Parser.new.parse_incoming_string(params[:Body])
     reply_text, reply_media = Texter.new.send(method_name, method_arguments)     
     Twilier.new.put_reply(reply_text, reply_media)
     Twilier.new.send_reply(reply_text, reply_media)
-
   else
     puts "Unauthorized number."
   end
 
 end
+
 
