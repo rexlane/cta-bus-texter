@@ -1,11 +1,12 @@
 class Parser
 
-  EXISTING_METHODS = ["map","define"]
+  def existing_methods
+    ["map","define"]
+  end
   
   def parse_incoming_string(string)
     request = string.split(" ", 2)
     requested_method = request[0].downcase
-    
     if request[1]
       requested_arguments = request[1].downcase
     end
@@ -21,7 +22,7 @@ class Parser
   end
 
   def permitted_method(requested_method)
-    if EXISTING_METHODS.include? requested_method
+    if existing_methods.include? requested_method
       return requested_method
     else
       "no_matching_method"

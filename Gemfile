@@ -13,6 +13,7 @@ gem "sinatra-activerecord"
 
 group :development, :test do
   gem 'rspec'
+  gem 'guard-rspec'
 end
 
 group :test do

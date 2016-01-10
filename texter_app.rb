@@ -8,9 +8,10 @@ require 'dotenv'
 require 'geocoder'
 require 'nokogiri'
 require 'open-uri'
-require_relative 'texter'
-require_relative 'twilier'
-require_relative 'parser'
+require_relative 'lib/texter'
+require_relative 'lib/twilier'
+require_relative 'lib/parser'
+require_relative 'lib/cta_api_integration'
 
 Dotenv.load
 

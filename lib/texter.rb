@@ -1,7 +1,7 @@
 class Texter
 
   def no_matching_method(body=nil)
-    error_string = "Sorry, I don't understand. Try texting \"map [place]\"."
+    error_string = "Sorry, I don't understand. For help, reply \"help\"."
   end
 
   def get_location_coordinates(query)
