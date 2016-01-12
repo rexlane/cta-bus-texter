@@ -1,7 +1,7 @@
 class Parser
 
   def existing_methods
-    ["map","define"]
+    ["map","define","bus"]
   end
   
   def parse_incoming_string(string)
@@ -16,7 +16,7 @@ class Parser
     else
       method_name = "no_matching_method"
     end
-
+    
     return method_name, requested_arguments
 
   end

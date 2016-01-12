@@ -8,9 +8,10 @@ require 'dotenv'
 require 'geocoder'
 require 'nokogiri'
 require 'open-uri'
-require_relative 'lib/texter'
+require_relative 'lib/mapper'
 require_relative 'lib/twilier'
 require_relative 'lib/parser'
+require_relative 'lib/bus_tracker'
 require_relative 'lib/cta_api_integration'
 
 Dotenv.load
@@ -29,7 +30,7 @@ $allowed_phone_numbers = ENV['ALLOWED_PHONE_NUMBERS'].split(',')
 get '/' do
   if $allowed_phone_numbers.include? params[:From]
     method_name, method_arguments = Parser.new.parse_incoming_string(params[:Body])
-    reply_text, reply_media = Texter.new.send(method_name, method_arguments)     
+    reply_text, reply_media = Mapper.new.send(method_name, method_arguments)     
     Twilier.new.put_reply(reply_text, reply_media)
     Twilier.new.send_reply(reply_text, reply_media)
   else

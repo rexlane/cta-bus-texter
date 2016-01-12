@@ -1,5 +1,6 @@
-class Texter
+class Mapper
 
+  # move out of Mapper
   def no_matching_method(body=nil)
     error_string = "Sorry, I don't understand. For help, reply \"help\"."
   end
@@ -21,10 +22,10 @@ class Texter
     coordinate_array = get_location_coordinates(body)
     coordinate_string = "#{coordinate_array[0].to_s},#{coordinate_array[1].to_s}"
     map_url = "#{base_url}?center=#{coordinate_string}&zoom=16&size=400x400&key=#{ENV["GOOGLE_STATIC_MAPS_KEY"]}"
-
     return formatted_address, map_url
   end
 
+  # move out of Mapper
   def define(word)
     dictionary_url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/#{word}?key=#{ENV["DICTIONARY_KEY"]}"
     doc = Nokogiri::HTML(open(dictionary_url))
