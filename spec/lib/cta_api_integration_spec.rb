@@ -4,7 +4,8 @@ describe CtaApiIntegration do
 
   describe "cta_bus_routes" do
     it "gets route list from cta api" do
-      expect(CtaApiIntegration.new.extract_all_bus_stops.count).to be > 100
+      expect(CtaApiIntegration.new.cta_bus_routes.count).to be > 100
+      # expect(CtaApiIntegration.new.extract_all_bus_stops.count).to be > 100
     end
   end
 
