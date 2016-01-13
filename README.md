@@ -1,8 +1,6 @@
-# SMS Bus Tracking and Static Mapping
-
 Search for CTA bus arrival times with a simple text; no stop id required. Request maps as static image files. For getting places without compromising your lo-fi dumbphone aesthetic.
 
-## Set it Up
+## Setting it Up
 
 This is a Sinatra app. It uses the `twilio-ruby` gem to handle sending and receiving texts. You'll need your own [Twilio](https://www.twilio.com/) account and text-enabled phone number. (Trial accounts are free but have some restrictions.)
 
