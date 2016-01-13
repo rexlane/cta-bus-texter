@@ -16,8 +16,8 @@ require_relative 'lib/cta_api_integration'
 
 Dotenv.load
 
-account_sid = ENV['ACCOUNT_SID']
-auth_token = ENV['AUTH_TOKEN']
+account_sid = ENV['TWILIO_ACCOUNT_SID']
+auth_token = ENV['TWILIO_AUTH_TOKEN']
 
 # account_sid = ENV['TEST_ACCOUNT_SID']
 # auth_token = ENV['TEST_AUTH_TOKEN']
