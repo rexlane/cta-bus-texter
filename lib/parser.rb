@@ -1,32 +1,53 @@
 class Parser
 
   def existing_methods
-    ["map","define","bus"]
+    ["map","define","bus","help"]
   end
   
   def parse_incoming_string(string)
     request = string.split(" ", 2)
-    requested_method = request[0].downcase
+    r_method = request[0].downcase
     if request[1]
-      requested_arguments = request[1].downcase
+      r_arguments = request[1].downcase
     end
 
-    if requested_method && requested_arguments
-      method_name = permitted_method(requested_method)
+    if r_method && r_arguments
+      r_method = permitted_method(r_method)
     else
-      method_name = "no_matching_method"
+      r_method = "no_matching_method"
+      r_arguments = nil
     end
-    
-    return method_name, requested_arguments
 
+    return r_method, r_arguments
   end
 
-  def permitted_method(requested_method)
-    if existing_methods.include? requested_method
-      return requested_method
+  def permitted_method(r_method)
+    if existing_methods.include? r_method
+      return r_method
     else
       "no_matching_method"
     end
+  end
+
+  def map(args)
+    Mapper.new.map(args)
+  end
+
+  def define(args)
+    Mapper.new.define(args)
+  end
+
+  def bus(args)
+    BusTracker.new.bus(args)
+  end
+
+  def help(args)
+    HelpMessage.new.all_help(args)
+  end
+
+  # move out of Mapper
+  def no_matching_method(args=nil)
+    HelpMessage.new.error_message
   end
 
 end

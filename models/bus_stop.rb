@@ -1,5 +1,11 @@
+require 'geocoder'
+
 class BusStop < ActiveRecord::Base
-  
+  extend Geocoder::Model::ActiveRecord
+  attr_accessor :rt, :dir, :stpid, :stpnm, :lat, :lon
+  # geocoded_by :stpnm, :lat => :lat, :lon => :lon
+  reverse_geocoded_by :lat, :lon
+
   def self.get_cta_xpath_from(route, direction)
     url = "http://www.ctabustracker.com/bustime/api/v1/getstops?key=#{ENV['CTABUS_KEY']}&rt=#{route}&dir=#{direction}"
     Nokogiri::HTML(open(url)).xpath("//stop").each do |stop|

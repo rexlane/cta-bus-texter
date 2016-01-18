@@ -5,13 +5,16 @@ class CtaApiIntegration
     ActiveRecord::Base.connection.reset_pk_sequence!('bus_stops')
   end
 
+  def cta_base_url
+    "http://www.ctabustracker.com/bustime/api/v1"
+  end
+
   def cta_routes_url 
-    "http://www.ctabustracker.com/bustime/api/v1/getroutes?key=#{ENV['CTABUS_KEY']}"
+    "#{cta_base_url}/getroutes?key=#{ENV['CTABUS_KEY']}"
   end
 
   def cta_bus_routes
     routes = []
-
     Nokogiri::HTML(open(cta_routes_url)).xpath("//route//rt").each do |r|
       routes << r.content
     end
@@ -29,6 +32,24 @@ class CtaApiIntegration
         BusStop.get_cta_xpath_from(route, direction)
       end
     end
+  end
+
+  def current_time
+    url = "#{cta_base_url}/gettime?key=#{ENV['CTABUS_KEY']}"
+    cta_time = Nokogiri::HTML(open(url)).xpath("//tm").first.content
+    Time.parse(cta_time)
+  end
+  
+  def arrival_times(route, stop_id)
+    url = "#{cta_base_url}/getpredictions?key=#{ENV['CTABUS_KEY']}&rt=#{route}&stpid=#{stop_id}"
+    arrival_times = []
+
+    Nokogiri::HTML(open(url)).xpath("//prd").each do |prediction|
+      arrival_time = Time.parse(prediction.at("prdtm").content)
+      arrival_times << arrival_time
+    end
+    
+    arrival_times
   end
 
 

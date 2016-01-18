@@ -9,6 +9,13 @@ describe CtaApiIntegration do
     end
   end
 
+  # describe "upcoming_arrivals" do
+  #   it "gets upcoming arrivals" do 
+  #     expect(CtaApiIntegration.new.upcoming_arrivals("22","17395")).to eq("")
+  #   end
+  # end
+
+
   describe "extract_all_bus_stops" do
     it "calls the right things" do
       integration = CtaApiIntegration.new

@@ -10,6 +10,7 @@ gem 'nokogiri'
 gem "pg"
 gem "activerecord"
 gem "sinatra-activerecord"
+gem 'activesupport'
 
 group :development, :test do
   gem 'rspec'
