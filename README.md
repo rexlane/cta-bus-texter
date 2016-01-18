@@ -24,7 +24,7 @@ This app uses Postgres and ActiveRecord to manage bus stop details. Geocoding by
 This app understands the following requests:
 
 - **HelpMe**
-<br />Returns a list of available options. ("Help" alone calls up Twilio's helpers, not the app's.)
+<br />Returns a list of available options. ("Help" alone calls up Twilio's help menu, not ours.)
 - **Map \[location\]**
 <br />Returns a map of that location as a static image file. The location can be an address, intersection, zip code, etc. Defaults to Chicago.
 - **Bus \[location\] \[direction\]**
