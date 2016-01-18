@@ -1,11 +1,6 @@
 require 'spec_helper'
 
 describe Mapper do
-  describe "no_matching_method" do
-    it "returns an error string" do
-      expect(Mapper.new.no_matching_method("string")).to eq("Sorry, I don't understand. For help, reply \"help\".")
-    end
-  end
 
   describe "get_location_coordinates" do
     it "returns array of latitude and longitude" do

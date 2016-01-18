@@ -13,10 +13,8 @@ class Mapper
     formatted_address = get_formatted_address(body)
     coordinates = get_location_coordinates(body)
     coordinate_string = "#{coordinates[0].to_s},#{coordinates[1].to_s}"
-    map_url = "#{base_url}?center=#{coordinate_string}&zoom=16&size=400x400&key=#{ENV["GOOGLE_STATIC_MAPS_KEY"]}"
-    
+    map_url = "#{base_url}?center=#{coordinate_string}&zoom=16&size=400x400&key=#{ENV["GOOGLE_STATIC_MAPS_KEY"]}"        
     return formatted_address, map_url
-  
   end
 
   # move out of Mapper

@@ -12,6 +12,7 @@ require_relative 'lib/mapper'
 require_relative 'lib/twilier'
 require_relative 'lib/parser'
 require_relative 'lib/bus_tracker'
+require_relative 'lib/help_message'
 require_relative 'lib/cta_api_integration'
 
 Dotenv.load
@@ -26,14 +27,12 @@ auth_token = ENV['TWILIO_AUTH_TOKEN']
 
 $allowed_phone_numbers = ENV['ALLOWED_PHONE_NUMBERS'].split(',')
 
-
 get '/' do
   if $allowed_phone_numbers.include? params[:From]
     r_method, r_arguments = Parser.new.parse_incoming_string(params[:Body])
     reply_text, reply_media = Parser.new.send(r_method, r_arguments)
-
-    Twilier.new.put_reply(reply_text, reply_media)
-    # Twilier.new.send_reply(reply_text, reply_media)
+    # Twilier.new.put_reply(reply_text, reply_media)
+    Twilier.new.send_reply(reply_text, reply_media)
   else
     puts "Unauthorized number."
   end

@@ -5,26 +5,26 @@ class HelpMessage
   end
 
   def base_help_message
-    "Try texting:"
+    "Try one of these:"
   end
 
   def bus_help
-    "bus [location] [direction]"
+    "BUS [location] [direction]"
   end
 
   def define_help
-    "define [word]"
+    "DEFINE [word]"
   end
 
   def map_help
-    "map [location]"
+    "MAP [location]"
   end
 
   def all_help
-    "#{base_help_message}<br/>#{bus_help}<br/>#{map_help}<br/>#{define_help}<br/>"
+    "#{base_help_message}\n'#{bus_help}'\n'#{map_help}'\n'#{define_help}'\n"
   end
 
-  def error_message 
+  def no_matching_method 
     "#{sorry} #{all_help}"
   end
 
