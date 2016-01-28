@@ -101,6 +101,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  activesupport
   dotenv
   geocoder
   guard-rspec
