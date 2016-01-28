@@ -21,7 +21,7 @@ class HelpMessage
   end
 
   def all_help
-    "#{base_help_message}\n'#{bus_help}'\n'#{map_help}'\n'#{define_help}'\n"
+    "#{base_help_message} #{bus_help}; #{map_help}; #{define_help}"
   end
 
   def no_matching_method 

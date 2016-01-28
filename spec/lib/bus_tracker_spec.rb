@@ -19,17 +19,17 @@ describe BusTracker do
     end
   end
 
-  describe "bus method" do
-    it "calls the right things" do
-      loc_and_dir = "clark and lawrence north"
-      tracker = BusTracker.new
-      # expect(tracker).to receive(:split_into_loc_and_dir) {["clark and lawrence", "Northbound"]}
-      # expect(tracker).to receive(:find_closest_stop)
-      # expect(tracker).to receive(:arrival_times) {[1, 2]}
-      # expect(tracker).to 
-      # tracker.bus(loc_and_dir)
-      expect(tracker.bus(loc_and_dir)).to eq("22 Northbound from Clark & Lawrence")
-    end
-  end
+  # describe "bus method" do
+  #   it "calls the right things" do
+  #     loc_and_dir = "clark and lawrence north"
+  #     tracker = BusTracker.new
+  #     # expect(tracker).to receive(:split_into_loc_and_dir) {["clark and lawrence", "Northbound"]}
+  #     # expect(tracker).to receive(:find_closest_stop)
+  #     # expect(tracker).to receive(:arrival_times) {[1, 2]}
+  #     # expect(tracker).to 
+  #     # tracker.bus(loc_and_dir)
+  #     expect(tracker.bus(loc_and_dir)).to eq("22 Northbound from Clark & Lawrence")
+  #   end
+  # end
 
 end

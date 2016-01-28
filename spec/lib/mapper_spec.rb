@@ -26,11 +26,4 @@ describe Mapper do
     end
   end
 
-  describe "define method" do
-    it "returns a definition" do
-      target = ":a thin round of unleavened cornmeal or wheat flour bread usually eaten hot with a topping or filling (as of ground meat or cheese)"
-      expect(Mapper.new.define("tortilla")).to eq(target)
-    end
-  end
-
 end

@@ -21,6 +21,10 @@ class CtaApiIntegration
     routes
   end
 
+  # def cta_bus_routes
+  #   [49]
+  # end
+
   def directions
     ["Northbound", "Southbound", "Eastbound", "Westbound"]
   end
@@ -43,14 +47,11 @@ class CtaApiIntegration
   def arrival_times(route, stop_id)
     url = "#{cta_base_url}/getpredictions?key=#{ENV['CTABUS_KEY']}&rt=#{route}&stpid=#{stop_id}"
     arrival_times = []
-
     Nokogiri::HTML(open(url)).xpath("//prd").each do |prediction|
       arrival_time = Time.parse(prediction.at("prdtm").content)
       arrival_times << arrival_time
     end
-    
     arrival_times
   end
-
 
 end

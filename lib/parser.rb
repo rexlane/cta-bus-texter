@@ -1,5 +1,34 @@
 class Parser
 
+  # def existing_methods
+  #   ["map","define"]
+  # end
+  
+  # def parse_incoming_string(string)
+  #   request = string.split(" ", 2)
+  #   requested_method = request[0].downcase
+  #   if request[1]
+  #     requested_arguments = request[1].downcase
+  #   end
+
+  #   if requested_method && requested_arguments
+  #     method_name = permitted_method(requested_method)
+  #   else
+  #     method_name = "no_matching_method"
+  #   end
+
+  #   return method_name, requested_arguments
+
+  # end
+
+  # def permitted_method(requested_method)
+  #   if existing_methods.include? requested_method
+  #     return requested_method
+  #   else
+  #     "no_matching_method"
+  #   end
+  # end
+
   def existing_methods
     ["map","define","bus","helpme"]
   end
@@ -15,14 +44,6 @@ class Parser
       r_arguments = nil
     end
 
-    # change where this is checked; make part of individual methods?
-    # if r_method && r_arguments
-    #   r_method = permitted_method(r_method)
-    # else
-    #   r_method = "no_matching_method"
-    #   r_arguments = nil
-    # end
-
     r_method = permitted_method(r_method)
 
     return r_method, r_arguments
@@ -36,8 +57,6 @@ class Parser
     end
   end
 
-
-
   def map(args)
     if args.nil?
       return HelpMessage.new.no_matching_method, nil
@@ -47,12 +66,11 @@ class Parser
     end
   end
 
-  # move out of Mapper
   def define(args)
     if args.nil?
       return HelpMessage.new.no_matching_method, nil
     else
-      return Mapper.new.define(args), nil
+      return Definer.new.define(args), nil
     end
   end
 
