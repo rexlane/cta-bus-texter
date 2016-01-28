@@ -18,6 +18,17 @@ describe Parser do
       target = ["map", "chicago"]
       expect(Parser.new.parse_incoming_string("map chicago")).to eq(target)
     end
+
+    it "returns method and nil if request has no parameters" do
+      target = ["map", nil]
+      expect(Parser.new.parse_incoming_string("map")).to eq(target)
+    end
+
+    it "calls an error if map has no parameters" do
+      target = [HelpMessage.new.no_matching_method, nil]
+      expect(Parser.new.map(nil)).to eq(target)
+    end
+
   end
 
 end

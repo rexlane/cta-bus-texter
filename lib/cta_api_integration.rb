@@ -18,6 +18,10 @@ class CtaApiIntegration
     routes
   end
 
+  # def cta_bus_routes
+  #   [49]
+  # end
+
   def directions
     ["Northbound", "Southbound", "Eastbound", "Westbound"]
   end
@@ -31,5 +35,20 @@ class CtaApiIntegration
     end
   end
 
+  def current_time
+    url = "http://www.ctabustracker.com/bustime/api/v1/gettime?key=#{ENV['CTABUS_KEY']}"
+    cta_time = Nokogiri::HTML(open(url)).xpath("//tm").first.content
+    Time.parse(cta_time)
+  end
+  
+  def arrival_times(route, stop_id)
+    url = "http://www.ctabustracker.com/bustime/api/v1/getpredictions?key=#{ENV['CTABUS_KEY']}&rt=#{route}&stpid=#{stop_id}"
+    arrival_times = []
+    Nokogiri::HTML(open(url)).xpath("//prd").each do |prediction|
+      arrival_time = Time.parse(prediction.at("prdtm").content)
+      arrival_times << arrival_time
+    end
+    arrival_times
+  end
 
 end

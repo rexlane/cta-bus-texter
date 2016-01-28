@@ -1,4 +1,9 @@
+
+require 'geocoder'
+
 class BusStop < ActiveRecord::Base
+  extend Geocoder::Model::ActiveRecord
+  reverse_geocoded_by :lat, :lon
   
   def self.get_cta_xpath_from(route, direction)
     url = "http://www.ctabustracker.com/bustime/api/v1/getstops?key=#{ENV['CTABUS_KEY']}&rt=#{route}&dir=#{direction}"
