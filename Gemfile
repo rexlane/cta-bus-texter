@@ -11,6 +11,7 @@ gem "pg"
 gem "activerecord"
 gem "sinatra-activerecord"
 gem 'activesupport'
+gem "honeybadger", '~> 2.0'
 
 group :development, :test do
   gem 'rspec'

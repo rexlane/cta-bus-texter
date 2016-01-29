@@ -2,6 +2,7 @@ require 'rubygems'
 require 'twilio-ruby'
 require 'sinatra'
 require 'sinatra/activerecord'
+require 'honeybadger'
 require './config/environments'
 require './models/bus_stop'
 require 'dotenv'
@@ -21,21 +22,18 @@ Dotenv.load
 account_sid = ENV['TWILIO_ACCOUNT_SID']
 auth_token = ENV['TWILIO_AUTH_TOKEN']
 
-# account_sid = ENV['TEST_ACCOUNT_SID']
-# auth_token = ENV['TEST_AUTH_TOKEN']
-
 @client = Twilio::REST::Client.new account_sid, auth_token
 
 $allowed_phone_numbers = ENV['ALLOWED_PHONE_NUMBERS'].split(',')
 
 get '/' do
   if $allowed_phone_numbers.include? params[:From]
-    # method_name, method_arguments = Parser.new.parse_incoming_string(params[:Body])
-    # reply_text, reply_media = Mapper.new.send(method_name, method_arguments)     
-    r_method, r_arguments = Parser.new.parse_incoming_string(params[:Body])
-    reply_text, reply_media = Parser.new.send(r_method, r_arguments)
-    Twilier.new.put_reply(reply_text, reply_media)
-    Twilier.new.send_reply(reply_text, reply_media)
+    parser = Parser.new
+    r_method, r_arguments = parser.parse_incoming_string(params[:Body])
+    reply_text, reply_media = parser.send(r_method, r_arguments)
+    twilier = Twilier.new
+    twilier.put_reply(reply_text, reply_media)
+    twilier.send_reply(reply_text, reply_media)
   else
     puts "Unauthorized number."
   end
