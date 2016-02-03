@@ -1,31 +1,29 @@
 class HelpMessage
-
   def sorry
     "Sorry, I don't understand."
   end
 
   def base_help_message
-    "Try one of these:"
+    'Try one of these:'
   end
 
   def bus_help
-    "BUS [location] [direction]"
+    'BUS [location] [direction]'
   end
 
   def define_help
-    "DEFINE [word]"
+    'DEFINE [word]'
   end
 
   def map_help
-    "MAP [location]"
+    'MAP [location]'
   end
 
   def all_help
     "#{base_help_message} #{bus_help}; #{map_help}; #{define_help}"
   end
 
-  def no_matching_method 
+  def no_matching_method
     "#{sorry} #{all_help}"
   end
-
 end

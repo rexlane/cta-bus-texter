@@ -1,85 +1,91 @@
 require 'active_support/core_ext/time/calculations.rb'
 
 class BusTracker
-
-  def direction_pairs
-    { "n" => "Northbound", "s" => "Southbound", "w" => "Westbound", "e" => "Eastbound" }
+  def directions_hash
+    { 'n' => 'Northbound', 's' => 'Southbound', 'w' => 'Westbound', 'e' => 'Eastbound' }
   end
 
-  def split_into_loc_and_dir(args)
-    location = "#{args.rpartition(' ').first} chicago"
+  def get_location(args)
+    "#{args.rpartition(' ').first} chicago"
+  end
+
+  def get_direction(args)
     direction = args.rpartition(' ').last.downcase
-    if direction_pairs.has_key?(direction[0])
-      direction = direction_pairs[direction[0]]
-    else
-      # what happens if no direction?
-      direction = nil
-    end
-    return location, direction
+    return directions_hash[direction[0]] if directions_hash.key?(direction[0])
   end
 
   def find_closest_stop(loc, dir)
     nearest_bus_stops = BusStop.near(loc).where(dir: dir)
-
     # can allow for multiple routes at a single stop?
     nearest_bus_stops.first
   end
 
-  def time_until_arrival(route, stop_id)
-    current_time = CtaApiIntegration.new.current_time
-    arrival_times = CtaApiIntegration.new.arrival_times(route, stop_id)
+  def get_stop_info(stop)
+    { stop_name: stop[:stpnm],
+      route: stop[:rt],
+      stop_id: stop[:stpid].to_s,
+      direction: stop[:dir] }
+  end
 
+  # returns array of integers
+  def calculate_time_until_arrival(current_time, arrival_times)
     minutes_to_arrival = []
-
-    arrival_times.each do |time|
-      seconds_to_arrival = time - current_time
+    current_time = Time.parse(current_time)
+    arrival_times.each do |arrival|
+      arrival = Time.parse(arrival)
+      seconds_to_arrival = arrival - current_time
       minutes_to_arrival << (seconds_to_arrival / 60).floor
     end
     minutes_to_arrival
   end
 
+  # returns array of integers
+  def time_until_arrival(route, stop_id)
+    integration = CtaApiIntegration.new
+    current_time = integration.current_time
+    arrival_times = integration.arrival_times(route, stop_id)
+    calculate_time_until_arrival(current_time, arrival_times)
+  end
+
+  def integer_to_words_hash
+    { 1 => '1 minute', 0 => 'less than 1 minute' }
+  end
+
+  def humanize(integer)
+    return integer_to_words_hash[integer] if integer_to_words_hash.key?(integer)
+    "#{integer} minutes"
+  end
+
   def humanize_minutes_to_arrival(minutes_to_arrival)
-    string = ""
-    minutes_to_arrival.each_with_index do |time, index|
-      substring = ""
-
-      if index != 0 
-        substring << ", "
-      end
-
-      if time == 1
-        substring << "#{time.to_s} minute"
-      elsif time == 0
-        substring << "less than 1 minute"
-      else
-        substring << "#{time.to_s} minutes"
-      end
-
+    string = ''
+    minutes_to_arrival.each_with_index do |minutes, index|
+      substring = humanize(minutes)
+      substring.prepend(', ') if index != 0
       string << substring
     end
     string
   end
 
-  def bus(args)
-    loc, dir = split_into_loc_and_dir(args)
-    stop = find_closest_stop(loc, dir)    
-
-    stop_name = stop[:stpnm]
-    route = stop[:rt]
-    stop_id = stop[:stpid].to_s
-    direction = stop[:dir]
-
-    arrival_times = time_until_arrival(route, stop_id)
-
-    # check for error messages, not lack of arrival times
-    if arrival_times.empty?
-      bus_tracker_reply = "No arrival times for #{route} #{direction} from #{stop_name}"
-    else
-      bus_tracker_reply = "#{route} #{direction} from #{stop_name} in #{humanize_minutes_to_arrival(arrival_times)}"
-    end
-
-    bus_tracker_reply
-
+  def formulate_reply(stop_info_hash, arrivals_array)
+    route = stop_info_hash[route]
+    direction = stop_info_hash[direction]
+    stop_name = stop_info_hash[stop_name]
+    base = "Arrivals for #{route} #{direction} from #{stop_name}:"
+    return "#{base} no arrival times" if arrivals_array.empty?
+    "#{base} #{humanize_minutes_to_arrival(arrivals_array)}"
   end
 
+  def bus(args)
+    # returns stop database object
+    stop = find_closest_stop(get_location(args), get_direction(args))
+
+    # returns hash of stop attributes
+    stop_info = get_stop_info(stop)
+
+    # returns array of integers
+    arrival_times = time_until_arrival(stop_info[route], stop_info[stop_id])
+
+    # returns a string
+    formulate_reply(stop_info, arrival_times)
+  end
 end

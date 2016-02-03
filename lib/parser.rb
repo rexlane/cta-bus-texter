@@ -1,66 +1,50 @@
 class Parser
-
   def existing_methods
-    ["map","define","bus","helpme"]
+    %w(map define bus helpme)
   end
-  
+
+  def parse_method_name(split_string)
+    permitted_method(split_string[0].downcase)
+  end
+
+  def parse_arguments(split_string)
+    arguments = split_string[1].downcase if split_string[1]
+    arguments
+  end
+
   def parse_incoming_string(string)
-    request = string.split(" ", 2)
-    r_method = request[0].downcase
-
-    if request[1]
-      r_arguments = request[1].downcase
-    else
-      r_arguments = nil
-    end
-
-    r_method = permitted_method(r_method)
-
-    return r_method, r_arguments
-    # instead try returning:
-    # send(r_method, r_argunemts)
-
+    split_string = string.split(' ', 2)
+    method_name = parse_method_name(split_string)
+    arguments = parse_arguments(split_string)
+    send(method_name, arguments)
   end
 
-  def permitted_method(r_method)
-    if existing_methods.include? r_method
-      return r_method
-    else
-      "no_matching_method"
-    end
+  def permitted_method(method_name)
+    return method_name if existing_methods.include? method_name
+    'no_matching_method'
   end
 
+  # rename to something not 'map'
   def map(args)
-    if args.nil?
-      return HelpMessage.new.no_matching_method, nil
-    else
-      # returns two values
-      Mapper.new.map(args)
-    end
+    return [HelpMessage.new.no_matching_method, nil] if args.nil?
+    Mapper.new.map(args)
   end
 
   def define(args)
-    if args.nil?
-      return HelpMessage.new.no_matching_method, nil
-    else
-      return Definer.new.define(args), nil
-    end
+    return [Definer.new.define(args), nil] unless args.nil?
+    [HelpMessage.new.no_matching_method, nil]
   end
 
   def bus(args)
-    if args.nil?
-      return HelpMessage.new.no_matching_method, nil
-    else
-      return BusTracker.new.bus(args), nil
-    end
+    return [HelpMessage.new.no_matching_method, nil] if args.nil?
+    [BusTracker.new.bus(args), nil]
   end
 
-  def helpme(args=nil)
-    return HelpMessage.new.all_help, nil
+  def helpme(*)
+    [HelpMessage.new.all_help, nil]
   end
 
-  def no_matching_method(args=nil)
-    return HelpMessage.new.no_matching_method, nil
+  def no_matching_method(*)
+    [HelpMessage.new.no_matching_method, nil]
   end
-
 end

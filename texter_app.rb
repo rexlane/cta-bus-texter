@@ -23,21 +23,15 @@ account_sid = ENV['TWILIO_ACCOUNT_SID']
 auth_token = ENV['TWILIO_AUTH_TOKEN']
 
 @client = Twilio::REST::Client.new account_sid, auth_token
-
-$allowed_phone_numbers = ENV['ALLOWED_PHONE_NUMBERS'].split(',')
+@allowed_phone_numbers = ENV['ALLOWED_PHONE_NUMBERS'].split(',')
 
 get '/' do
-  if $allowed_phone_numbers.include? params[:From]
+  if @allowed_phone_numbers.include? params[:From]
     parser = Parser.new
-    r_method, r_arguments = parser.parse_incoming_string(params[:Body])
-    reply_text, reply_media = parser.send(r_method, r_arguments)
+    text_response = parser.parse_incoming_string(params[:Body])
     twilier = Twilier.new
-    twilier.put_reply(reply_text, reply_media)
-    twilier.send_reply(reply_text, reply_media)
+    twilier.send_reply(text_response)
   else
-    puts "Unauthorized number."
+    puts 'Unauthorized number.'
   end
-
 end
-
-

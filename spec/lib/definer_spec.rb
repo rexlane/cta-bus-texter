@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe Definer do
-  describe "define method" do
-    it "returns a definition" do
-      target = "tortilla: :a thin round of unleavened cornmeal or wheat flour bread usually eaten hot with a topping or filling (as of ground meat or cheese)"
-      expect(Definer.new.define("tortilla")).to eq(target)
+  describe 'define method' do
+    it 'returns a definition' do
+      target_start = 'tortilla: :a thin round of unleavened cornmeal'
+      tortilla_definition = Definer.new.define('tortilla')
+      expect(tortilla_definition.start_with?(target_start)).to eq(true)
     end
   end
-  
 end
